@@ -1,0 +1,5 @@
+Flask >= 0.9
+flask-mail
+sqlalchemy
+flask-sqlalchemy
+flask-wtf

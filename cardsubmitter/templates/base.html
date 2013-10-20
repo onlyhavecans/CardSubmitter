@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if title %}
+        <title>{{ title }} - Furries Against Humanity</title>
+    {% else %}
+        <title> More proof we ruin everything - Furries Against Humanity</title>
+    {% endif %}
+</head>
+<body>
+    <h1><a href="/index">Furries Against Humanity</a></h1>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>

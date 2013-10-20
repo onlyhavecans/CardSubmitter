@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <p>This system has some smarts to it so pay attention;</p>
+    <ul>
+        <li>Put two underscores `__` to mark a black cards fill in field(s)</li>
+        <li>If you put no fields it will be registered as a white card</li>
+        <li>If you put more than three fields it will error out</li>
+        <li>You have 512 Characters</li>
+    </ul>
+    <hr>
+    <h2>I have an awesome Furries Against Humanity card!</h2>
+    <form action="" method="post" name="card">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.card_text(size=512) }}<br />
+            Gimme credit for my idea! I'm {{ form.whom(size=80) }}
+
+        </p>
+    </form>
+{% endblock %}
