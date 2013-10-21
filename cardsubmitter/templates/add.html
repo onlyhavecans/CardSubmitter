@@ -5,15 +5,24 @@
         <li>Put two underscores `__` to mark a black cards fill in field(s)</li>
         <li>If you put no fields it will be registered as a white card</li>
         <li>If you put more than three fields it will error out</li>
-        <li>You have 512 Characters</li>
+        <li>You have 256 Characters</li>
+        <li>Name can only be 30 characters</li>
     </ul>
     <hr>
     <h2>I have an awesome Furries Against Humanity card!</h2>
     <form action="" method="post" name="card">
         {{ form.hidden_tag() }}
         <p>
-            {{ form.card_text(size=512) }}<br />
-            Gimme credit for my idea! I'm {{ form.whom(size=30) }}<br />
+            Card Text {{ form.card_text(size=140) }}
+            {% for error in form.card_text.errors %}
+                <div class="errors">[Card Text Error: {{ error }}]</div>
+            {% endfor %}
+            <br />
+            Gimme credit for my idea! I'm {{ form.whom(size=30, default=user) }}<br />
+            {% for error in form.whom.errors %}
+                <div class="errors">[Name Error: {{ error }}]</div>
+            {% endfor %}
+
             <input type="submit" value="Go">
         </p>
     </form>
