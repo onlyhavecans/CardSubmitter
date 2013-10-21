@@ -8,14 +8,6 @@ from cardsubmitter import db
 WHITE_CARD = 0
 BLACK_CARD = 1
 
-PICK_ONE = 1
-PICK_TWO = 2
-DRAW_TWO_PICK_THREE = 3
-
-
-class FieldException(Exception):
-    pass
-
 
 class DuplicateCardException(Exception):
     pass
@@ -54,18 +46,15 @@ class Card(db.Model):
         return '<Card #{}:{}>'.format(self.id, self.text)
 
     @staticmethod
-    def create_card(card_text, user):
+    def create_card(card_text, user, pick_delimiter):
         """
         We abstract this to put in automatic black card creation
 
         raises: DuplicateCardException if card already exists
-        raises: FieldException if there is too many pick fields
         """
-        count = card_text.count('__')
+        count = card_text.count(pick_delimiter)
         card = Card(text=card_text, author=user)
-        if count > 3:
-            raise FieldException('Too many pick fields')
-        elif count > 0:
+        if count > 0:
             card.color = BLACK_CARD
             card.pick_count = count
         try:

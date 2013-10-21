@@ -2,12 +2,17 @@
 {% block content %}
     <p>This system has some smarts to it so pay attention;</p>
     <ul>
-        <li>Put two underscores `__` to mark a black cards fill in field(s)</li>
+        <li>Use `{{ delimiter }}` to mark a black cards "pick" field(s)</li>
         <li>If you put no fields it will be registered as a white card</li>
-        <li>If you put more than three fields it will error out</li>
+        <li>If you put more than {{ max_pick }} fields it will error out</li>
         <li>You have 256 Characters</li>
         <li>Name can only be 30 characters</li>
     </ul>
+    <p>
+        examples:<br />
+        White card: "lolfurries"<br />
+        Black Card: "{{ delimiter }}furries" or "{{ delimiter }} are the new {{ delimiter }}"
+    </p>
     <hr>
     <h2>I have an awesome Furries Against Humanity card!</h2>
     {% for message in get_flashed_messages() %}
@@ -26,7 +31,7 @@
                 <div class="errors">[Name Error: {{ error }}]</div>
             {% endfor %}
 
-            <input type="submit" value="Go">
+            <input type="submit" value="Submit">
         </p>
     </form>
 {% endblock %}
