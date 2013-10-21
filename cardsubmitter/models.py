@@ -8,9 +8,9 @@ from cardsubmitter import db
 WHITE_CARD = 0
 BLACK_CARD = 1
 
-PLAY_ONE = 1
-PLAY_TWO = 2
-DRAW_TWO_PLAY_THREE = 3
+PICK_ONE = 1
+PICK_TWO = 2
+DRAW_TWO_PICK_THREE = 3
 
 
 class Author(db.Model):
