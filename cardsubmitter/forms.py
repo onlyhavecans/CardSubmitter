@@ -1,6 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import TextField
 from wtforms.validators import Required, length, ValidationError
+from cardsubmitter import app
 
 
 class PickCount(object):
@@ -24,5 +25,9 @@ pick_count = PickCount
 
 
 class CardSubmitForm(Form):
-    card_text = TextField('card_text', validators=[Required(), length(min=1, max=256), pick_count(max=3, delimiter='__')])
+    card_text = TextField('card_text', validators=[Required(),
+                                                   length(min=1, max=256),
+                                                   pick_count(max=app.config['MAX_PICKS'],
+                                                   delimiter=app.config['PICK_DELIMITER'])
+                                                   ])
     whom = TextField('whom', default=None, validators=[length(max=30)])
