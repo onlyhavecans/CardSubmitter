@@ -10,7 +10,6 @@ Copyright (c) 2013 Bunni.biz. All rights reserved.
 
 def main():
     from cardsubmitter import app
-    app.config.from_object('config')
     app.run(debug=True)
 
 if __name__ == '__main__':

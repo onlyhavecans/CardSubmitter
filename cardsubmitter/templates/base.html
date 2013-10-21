@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {% if title %}
-        <title>{{ title }} - Furries Against Humanity</title>
-    {% else %}
-        <title> More proof we ruin everything - Furries Against Humanity</title>
-    {% endif %}
+    <title>
+        {% if title %}
+            {{ title }}
+        {% else %}
+            More proof we ruin everything
+        {% endif %}
+        - Furries Against Humanity
+    </title>
+    <link rel="stylesheet" href="static/main.css" type="text/css" />
 </head>
 <body>
     <h1><a href="/index">Furries Against Humanity</a></h1>
     <hr>
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
     {% block content %}{% endblock %}
 </body>
 </html>

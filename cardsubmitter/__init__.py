@@ -1,4 +1,8 @@
 from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-from cardsubmitter import views
+app.config.from_object('config')
+db = SQLAlchemy(app)
+
+from cardsubmitter import views, models
