@@ -8,6 +8,10 @@ from cardsubmitter import db
 WHITE_CARD = 0
 BLACK_CARD = 1
 
+PLAY_ONE = 1
+PLAY_TWO = 2
+DRAW_TWO_PLAY_THREE = 3
+
 
 class Author(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,7 +40,13 @@ class Card(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('author.id'))
     color = db.Column(db.SmallInteger, default=WHITE_CARD, nullable=False)
+    play_count = db.Column(db.SmallInteger, default=None, nullable=True)
 
     def __repr__(self):
         return '<Card #{}:{}>'.format(self.id, self.text)
 
+    @staticmethod
+    def create_card(self, card_text, user):
+        """
+        We abstract this to put in automatic black card creation
+        """
