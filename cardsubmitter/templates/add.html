@@ -10,6 +10,9 @@
     </ul>
     <hr>
     <h2>I have an awesome Furries Against Humanity card!</h2>
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
     <form action="" method="post" name="card">
         {{ form.hidden_tag() }}
         <p>

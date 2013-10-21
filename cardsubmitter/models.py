@@ -13,6 +13,14 @@ PICK_TWO = 2
 DRAW_TWO_PICK_THREE = 3
 
 
+class FieldException(Exception):
+    pass
+
+
+class DuplicateCardException(Exception):
+    pass
+
+
 class Author(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), index=True, unique=True)
@@ -40,13 +48,29 @@ class Card(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('author.id'))
     color = db.Column(db.SmallInteger, default=WHITE_CARD, nullable=False)
-    play_count = db.Column(db.SmallInteger, default=None, nullable=True)
+    pick_count = db.Column(db.SmallInteger, default=None, nullable=True)
 
     def __repr__(self):
         return '<Card #{}:{}>'.format(self.id, self.text)
 
     @staticmethod
-    def create_card(self, card_text, user):
+    def create_card(card_text, user):
         """
         We abstract this to put in automatic black card creation
+
+        raises: DuplicateCardException if card already exists
+        raises: FieldException if there is too many pick fields
         """
+        count = card_text.count('__')
+        card = Card(text=card_text, author=user)
+        if count > 3:
+            raise FieldException('Too many pick fields')
+        elif count > 0:
+            card.color = BLACK_CARD
+            card.pick_count = count
+        try:
+            db.session.add(card)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            raise DuplicateCardException
