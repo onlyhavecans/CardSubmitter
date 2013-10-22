@@ -1,6 +1,7 @@
 from datetime import datetime
+import re
 from sqlalchemy.exc import IntegrityError
-from cardsubmitter import db
+from cardsubmitter import db, app
 
 WHITE_CARD = 0
 BLACK_CARD = 1
@@ -57,6 +58,7 @@ class Card(db.Model):
 
         raises: DuplicateCardException if card already exists
         """
+        card_text = Card.destroy_urls(card_text)
         count = card_text.count(pick_delimiter)
         card = Card(text=card_text, author=user)
         if count > 0:
@@ -68,3 +70,9 @@ class Card(db.Model):
         except IntegrityError:
             db.session.rollback()
             raise DuplicateCardException
+
+    @staticmethod
+    def destroy_urls(text):
+        prog = re.compile(r'\S+://\S+')
+        return prog.sub(app.config['PICK_DELIMITER'], text, count=0)
+

@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import TextField, SelectField
-from wtforms.validators import Required, length, ValidationError
+from wtforms.validators import Required, length, ValidationError, Regexp
 from cardsubmitter import app
 
 
@@ -30,7 +30,9 @@ class CardSubmitForm(Form):
                                                    pick_count(max=app.config['MAX_PICKS'],
                                                    delimiter=app.config['PICK_DELIMITER'])
                                                    ])
-    whom = TextField('whom', default=None, validators=[length(max=30)])
+    whom = TextField('whom', default=None, validators=[length(max=30),
+                                                       Regexp(r'[a-zA-Z0-9-_~ ]+', message='Sorry your username sucks')
+                                                      ])
 
 
 class PaginationForm(Form):
