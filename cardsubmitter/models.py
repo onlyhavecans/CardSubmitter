@@ -1,8 +1,5 @@
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
-
-__author__ = 'bitm'
-
 from cardsubmitter import db
 
 WHITE_CARD = 0
