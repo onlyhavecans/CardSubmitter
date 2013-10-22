@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    <p>
+    <form action="" method="post" name="pages">
+        {{ form.hidden_tag() }}
+        {{ form.post_count }} <input type="submit">
+    </form>
+    </p>
+    <h2>The cards table</h2>
+    <table>
+        <tr>
+            <th>Text</th>
+            <th>Submitted By</th>
+            <th>Color</th>
+            <th>Draw #</th>
+            <th>Date</th>
+        </tr>
+        {% for card in cards.items %}
+        <tr>
+            <td>{{ card.text }}</td>
+            <td>{{ card.author.name }}</td>
+            <td>{% if card.color == black %}Black{% else %}White{% endif %}</td>
+            <td>{{ card.pick_count }}</td>
+            <td>{{ card.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p>
+        {% if cards.has_prev %}<a href="{{ url_for('show', page = cards.prev_num) }}"><< Newer cards</a>{% else %}<< Newer cards{% endif %} | 
+        {% if cards.has_next %}<a href="{{ url_for('show', page = cards.next_num) }}">Older cards >></a>{% else %}Older cards >>{% endif %}
+    </p>
+{% endblock %}

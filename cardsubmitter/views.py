@@ -1,7 +1,7 @@
 from flask import render_template, flash
 from cardsubmitter import app, models
-from cardsubmitter.forms import CardSubmitForm
-from cardsubmitter.models import DuplicateCardException
+from cardsubmitter.forms import CardSubmitForm, PaginationForm
+from cardsubmitter.models import DuplicateCardException, Card, Author
 
 
 @app.route('/')
@@ -14,9 +14,9 @@ def index():
 def add():
     form = CardSubmitForm()
     if form.validate_on_submit():
-        user = models.Author.get_user(form.whom.data)
+        user = Author.get_user(form.whom.data)
         try:
-            models.Card.create_card(form.card_text.data, user, app.config['PICK_DELIMITER'])
+            Card.create_card(form.card_text.data, user, app.config['PICK_DELIMITER'])
             flash('Hooray and thanks {}!'.format(user.name))
         except DuplicateCardException:
             flash("Sorry! We already have that card")
@@ -26,3 +26,17 @@ def add():
                            user=form.whom.data,
                            delimiter=app.config['PICK_DELIMITER'],
                            max_pick=app.config['MAX_PICKS'])
+
+
+@app.route('/show', methods=['GET', 'POST'])
+@app.route('/show/<int:page>', methods=['GET', 'POST'])
+def show(page=1):
+    form = PaginationForm()
+    cards = Card.get_all_cards().paginate(page, form.post_count.data, False)
+
+    return render_template('show.html',
+                           form=form,
+                           cards=cards,
+                           black=models.BLACK_CARD,
+                           white=models.WHITE_CARD)
+

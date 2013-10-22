@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField
+from wtforms import TextField, SelectField
 from wtforms.validators import Required, length, ValidationError
 from cardsubmitter import app
 
@@ -31,3 +31,7 @@ class CardSubmitForm(Form):
                                                    delimiter=app.config['PICK_DELIMITER'])
                                                    ])
     whom = TextField('whom', default=None, validators=[length(max=30)])
+
+
+class PaginationForm(Form):
+    post_count = SelectField('Cards per page', choices=[(str(x), x) for x in range(10, 60, 10)], coerce=int, default=20)

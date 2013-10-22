@@ -43,6 +43,14 @@ class Card(db.Model):
         return '<Card #{}:{}>'.format(self.id, self.text)
 
     @staticmethod
+    def get_all_cards():
+        return Card.query.join(Author).order_by(Card.timestamp.desc())
+
+    @staticmethod
+    def get_cards_by_user(user):
+        return Card.query.filter_by(author=user).join(Author).order_by(Card.timestamp.desc())
+
+    @staticmethod
     def create_card(card_text, user, pick_delimiter):
         """
         We abstract this to put in automatic black card creation
